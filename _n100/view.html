@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <title>MACD plots of top 100 stocks</title>
+
+        <script>
+            let current = 0;
+            let max = 100;
+            let h = window.innerHeight;
+            /*let w = window.innerWidth;*/
+            let playing = false;
+            let timeout = 1500;
+
+            function setNavigatorsDisabled(s_prev, s_next) {
+                document.getElementById("previous").setAttribute("disabled", s_prev);
+                document.getElementById("next").setAttribute("disabled", s_next);
+            }
+
+            function setPlayerControlsDisabled(s_play, s_pause) {
+                document.getElementById("play").setAttribute("disabled", s_play);
+                document.getElementById("pause").setAttribute("disabled", s_pause);
+            }
+
+            function next() 
+            {
+                current = current + 1;
+                
+                if (current==1) {
+                    // setNavigatorsDisabled(true, false);
+                }
+                else if (current>1 && current<max) {
+                    // setNavigatorsDisabled(false, false);
+                }
+                else if (current == max) {
+                    if (playing==true) {
+                        playing = false;
+                    }
+                    // setNavigatorsDisabled(false, true);
+                }
+                else if (current > max) {
+                    if (playing==true) {
+                        playing = false;
+                    }
+                    else {
+                        alert("You have reached the end point");
+                    }
+                    current = max;
+                    // setNavigatorsDisabled(false, true);
+                }
+                let f = ("0000" + current).slice(-4);
+                let imageTag = document.getElementById("image1");
+                imageTag.setAttribute("src", "svg/"+f+".svg");
+                imageTag.setAttribute("height", h+"px");
+            }
+
+            function previous() 
+            {
+                current = current - 1;
+                if (current<1) {
+                    alert("You have reached the start point");
+                    current = 1;
+                    // setNavigatorsDisabled(true, false);
+
+                }
+                else if (current==1) {
+                    s// etNavigatorsDisabled(true, false);
+                }
+                else if (current>1) {
+                    // setNavigatorsDisabled(false, false);
+                }
+                let f = ("0000" + current).slice(-4);
+                let imageTag = document.getElementById("image1");
+                imageTag.setAttribute("src", "svg/"+f+".svg");
+                imageTag.setAttribute("height", h+"px");
+            }
+
+            function gotoitem() {
+                n = parseInt(document.getElementById("index").value);
+                if (n>=1 && n<=max) {
+                    current = n-1;
+                    next();
+                }
+                else {
+                    alert("The value must be between 1 to " + max +" (inclusive)");
+                }
+            }
+            function play()
+            {
+                playing= true;
+                // setPlayerControlsDisabled(true, false);
+                next();
+                setTimeout(() => {
+                    if (playing) {
+                        play();
+                    }
+                }, timeout);
+            }
+            function pause()
+            {
+                playing = false;
+                // setPlayerControlsDisabled(false, true);
+            }
+        </script>
+    </head>
+
+    <body onload="next();">
+        <table align="center">
+            <tr>
+                <td><img id="image1" src="" height="1px"></td>
+                <td align="center">
+                    <button id="previous" onclick="previous();">Previous</button> <p></p>
+                    <button id="next" onclick="next();">Next</button> <p></p>
+                    <p></p>
+                    <label>Go to </label>
+                    <input id="index" type="text" minlength="1" maxlength="3" size="4"/>
+                    <button id="goto" onclick="gotoitem();">Go</button>
+                    <p></p>
+                    <button id="play" onclick="play();">Play</button> 
+                    <button id="pause" onclick="pause();">Pause</button>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+
