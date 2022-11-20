@@ -4,11 +4,11 @@
 
         <script>
             let current = 0;
-            let max = 100;
+            let MAX = 100;
             let h = window.innerHeight;
             /*let w = window.innerWidth;*/
             let playing = false;
-            let timeout = 1500;
+            let TIMEOUT = 2500;
 
             function setNavigatorsDisabled(s_prev, s_next) {
                 document.getElementById("previous").setAttribute("disabled", s_prev);
@@ -27,23 +27,23 @@
                 if (current==1) {
                     // setNavigatorsDisabled(true, false);
                 }
-                else if (current>1 && current<max) {
+                else if (current>1 && current<MAX) {
                     // setNavigatorsDisabled(false, false);
                 }
-                else if (current == max) {
+                else if (current == MAX) {
                     if (playing==true) {
                         playing = false;
                     }
                     // setNavigatorsDisabled(false, true);
                 }
-                else if (current > max) {
+                else if (current > MAX) {
                     if (playing==true) {
                         playing = false;
                     }
                     else {
                         alert("You have reached the end point");
                     }
-                    current = max;
+                    current = MAX;
                     // setNavigatorsDisabled(false, true);
                 }
                 let f = ("0000" + current).slice(-4);
@@ -75,12 +75,12 @@
 
             function gotoitem() {
                 n = parseInt(document.getElementById("index").value);
-                if (n>=1 && n<=max) {
+                if (n>=1 && n<=MAX) {
                     current = n-1;
                     next();
                 }
                 else {
-                    alert("The value must be between 1 to " + max +" (inclusive)");
+                    alert("The value must be between 1 to " + MAX +" (inclusive)");
                 }
             }
             function play()
@@ -92,7 +92,7 @@
                     if (playing) {
                         play();
                     }
-                }, timeout);
+                }, TIMEOUT);
             }
             function pause()
             {
